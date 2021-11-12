@@ -16,20 +16,18 @@
          </font>
       </Label>
       <ScrollPane layoutX="14.0" layoutY="86.0" prefHeight="459.0" prefWidth="830.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <TableView layoutY="7.0" prefHeight="448.0" prefWidth="830.0">
-                    <columns>
-                      <TableColumn prefWidth="257.0" text="Items" />
-                      <TableColumn prefWidth="311.0" text="Cost" />
-                        <TableColumn prefWidth="296.0" text="Image" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </content>
+         <content>
+            <TableView fx:id="foodTable" prefHeight="457.0" prefWidth="827.0">
+              <columns>
+                <TableColumn fx:id="col_foodName" prefWidth="237.0" text="foodName" />
+                <TableColumn fx:id="col_foodPrice" prefWidth="106.0" text="foodPrice" />
+                  <TableColumn fx:id="col_foodImage" prefWidth="218.0" text="foodImage" />
+                  <TableColumn fx:id="col_foodType" prefWidth="265.0" text="foodType" />
+              </columns>
+            </TableView>
+         </content>
       </ScrollPane>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToMenu" text="Back" />
+      <Button layoutX="792.0" layoutY="14.0" mnemonicParsing="false" onAction="#loadShit" text="Load" />
    </children>
 </AnchorPane>
