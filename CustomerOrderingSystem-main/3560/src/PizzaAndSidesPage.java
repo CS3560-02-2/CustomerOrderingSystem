@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import javafx.collections.FXCollections;
@@ -12,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -23,6 +26,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+
 import com.mysql.cj.xdevapi.Table;
 
 public class PizzaAndSidesPage implements Initializable{
@@ -33,20 +38,6 @@ public class PizzaAndSidesPage implements Initializable{
     @FXML
     private TableView foodTable;
 
-    //this should add all the data to a method that can be read
-    //ObservableList<food> data = FXCollections.observableArrayList();
-    
-    // @FXML
-    // private TableColumn<food, Blob> col_foodImage;
-
-    // @FXML
-    // private TableColumn<food, String> col_foodName;
-
-    // @FXML
-    // private TableColumn<food, Float> col_foodPrice;
-
-    // @FXML
-    // private TableColumn<food, String> col_foodType;
 
 
     @Override
@@ -56,9 +47,9 @@ public class PizzaAndSidesPage implements Initializable{
         TableColumn name = new TableColumn("Food Name");
         TableColumn price = new TableColumn("Food Price");
         TableColumn image = new TableColumn("Food Image");
-        TableColumn type = new TableColumn("Food Type");
+        //TableColumn type = new TableColumn("Food Type");
 
-        foodTable.getColumns().addAll(name,price,image,type);
+        foodTable.getColumns().addAll(name,price,image);
 
 
         final ObservableList<food> data = FXCollections.observableArrayList();
@@ -77,14 +68,23 @@ public class PizzaAndSidesPage implements Initializable{
             while(rs.next()){
                 //this if statement ensures only food is displayed
                 if(rs.getString("foodType").equalsIgnoreCase("food")){
-                    data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),rs.getBlob("foodImage"),rs.getString("foodType")));
+                    
+                    // THIS DISPLAYS THE IMAGE!!!!!!
+                    Image newImage = new Image(rs.getBlob("foodImage").getBinaryStream(), 100, 100, false, false);
+                    ImageView display = new ImageView();
+                    display.setImage(newImage);
+                    //this gets the data
+                    data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
+                    //the image is unique
+                     System.out.println(newImage); 
+
                     image.setCellValueFactory(new PropertyValueFactory<food,Blob>("image"));
                     name.setCellValueFactory(new PropertyValueFactory<food,String>("name"));
                     price.setCellValueFactory(new PropertyValueFactory<food,Float>("price"));
-                    type.setCellValueFactory(new PropertyValueFactory<food, String>("type"));
+                    //type.setCellValueFactory(new PropertyValueFactory<food, String>("type"));
                 }
                 //this was a debugging bit of code that shall be left in case it is needed
-                //System.out.println(rs.getString("foodName"));
+                System.out.println(rs.getString("foodName"));
                 
             }
 
@@ -99,42 +99,11 @@ public class PizzaAndSidesPage implements Initializable{
         }catch (SQLException ex){
            System.out.println(ex.getMessage());
            System.out.println("FAILURE!");
-        }
+        } 
+        
        
 
-        //below is a previous 
-
-
-        //will add all the columns with info into the tables
-        //foodTable.getColumns().addAll(col_foodName,col_foodPrice,col_foodImage,col_foodType);
-
         
-
-        //try{
-            //foodTable = new TableView<>();
-
-            // String sql = "SELECT foodName, foodPrice, foodImage, foodType FROM food";
-            // Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
-            // Statement stmt = conn.createStatement();
-            // ResultSet rs = stmt.executeQuery(sql);
-
-            // while(rs.next()){
-            //     data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),rs.getBlob("foodImage"),rs.getString("foodType")));
-            // }
-
-            // col_foodImage.setCellValueFactory(new PropertyValueFactory<food,Blob>("foodImage"));
-            // col_foodName.setCellValueFactory(new PropertyValueFactory<food,String>("foodName"));
-            // col_foodPrice.setCellValueFactory(new PropertyValueFactory<food,Float>("foodPrice"));
-            // col_foodType.setCellValueFactory(new PropertyValueFactory<food, String>("foodType"));
-
-            // foodTable.setItems(data);
-
-            // conn.close();
-
-        // }catch (SQLException ex){
-        //    System.out.println(ex.getMessage());
-        //    System.out.println("FAILURE!");
-        // }
     }
 
     @FXML

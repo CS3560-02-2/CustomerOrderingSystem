@@ -1,43 +1,27 @@
 import java.io.IOException;
-import java.net.URL;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TextField;
+
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ResourceBundle;
 
-import com.mysql.cj.xdevapi.Table;
-
-public class LogInPage implements Initializable{
+public class LogInPage {
         private Scene scene;
         private Stage stage;
         String test;
 
+    @FXML
+    private TextField enterPass;
 
-        @Override
-        public void initialize(URL location, ResourceBundle resources){
-        
-
-        
-    }
+    @FXML
+    private TextField enterUser;
 
     @FXML
     void backToMenu(ActionEvent event) throws IOException {
@@ -51,6 +35,9 @@ public class LogInPage implements Initializable{
 
     @FXML
     void enterData(MouseEvent event) throws IOException {
+        //debugging text input
+        System.out.println(enterUser.getText());
+        System.out.println(enterPass.getText());
 
     }
 }

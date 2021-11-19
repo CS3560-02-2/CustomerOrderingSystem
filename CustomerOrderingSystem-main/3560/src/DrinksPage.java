@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import javafx.collections.FXCollections;
@@ -12,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -22,6 +25,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+
+import javax.imageio.ImageIO;
 
 import com.mysql.cj.xdevapi.Table;
 
@@ -61,7 +66,12 @@ public class DrinksPage implements Initializable{
             while(rs.next()){
                 //this if statement ensures only drinks are displayed
                 if(rs.getString("foodType").equalsIgnoreCase("drink")){
-                    data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),rs.getBlob("foodImage"),rs.getString("foodType")));
+                    // THIS DISPLAYS THE IMAGE!!!!!!
+                    Image newImage = new Image(rs.getBlob("foodImage").getBinaryStream(), 100, 100, false, false);
+                    ImageView display = new ImageView();
+                    display.setImage(newImage);
+                    //this gets the data
+                    data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
                     image.setCellValueFactory(new PropertyValueFactory<food,Blob>("image"));
                     name.setCellValueFactory(new PropertyValueFactory<food,String>("name"));
                     price.setCellValueFactory(new PropertyValueFactory<food,Float>("price"));
@@ -80,7 +90,7 @@ public class DrinksPage implements Initializable{
         }catch (SQLException ex){
            System.out.println(ex.getMessage());
            System.out.println("FAILURE!");
-        }
+        } 
        
 
     }

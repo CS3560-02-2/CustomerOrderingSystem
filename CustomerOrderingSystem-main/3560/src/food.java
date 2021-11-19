@@ -1,5 +1,8 @@
+import java.awt.image.BufferedImage;
 import java.sql.Blob;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleLongProperty;
 
@@ -8,13 +11,13 @@ public class food
 {
 	private SimpleStringProperty name;
     private SimpleFloatProperty price;
-    private Blob image;
+    private ImageView image;
     private SimpleStringProperty type;
 
-    public food(String name, Float price, Blob image, String type){
+    public food(String name, Float price, ImageView display, String type){
         this.name = new SimpleStringProperty(name);
         this.price = new SimpleFloatProperty(price);
-        this.image = image;
+        this.image = display;
         this.type = new SimpleStringProperty(type);
     }
 
@@ -34,11 +37,11 @@ public class food
         return price.get();
     }
 
-    public void setImage(Blob image){
+    public void setImage(ImageView image){
         this.image = image;
     }
 
-    public Blob getImage(){
+    public ImageView getImage(){
         return image;
     }
 
