@@ -18,7 +18,7 @@
       <Button layoutX="787.0" layoutY="24.0" mnemonicParsing="false" onAction="#goToUpdatePage" text="Update" />
       <ScrollPane layoutX="16.0" layoutY="95.0" prefHeight="457.0" prefWidth="827.0">
          <content>
-            <TableView prefHeight="454.0" prefWidth="828.0" />
+            <TableView fx:id="custTable" prefHeight="454.0" prefWidth="828.0" />
          </content>
       </ScrollPane>
    </children>

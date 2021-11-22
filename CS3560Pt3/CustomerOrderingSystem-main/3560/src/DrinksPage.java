@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -25,6 +26,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+
 
 
 public class DrinksPage implements Initializable{
@@ -45,9 +49,9 @@ public class DrinksPage implements Initializable{
         TableColumn name = new TableColumn("Food Name");
         TableColumn price = new TableColumn("Food Price");
         TableColumn image = new TableColumn("Food Image");
-        //TableColumn type = new TableColumn("Food Type");
+        TableColumn amount = new TableColumn("Amount");
 
-        drinkTable.getColumns().addAll(name,price,image);
+        drinkTable.getColumns().addAll(name,price,image,amount);
 
 
         final ObservableList<food> data = FXCollections.observableArrayList();
@@ -55,7 +59,7 @@ public class DrinksPage implements Initializable{
         try{
             //foodTable = new TableView<>();
 
-            String sql = "SELECT foodName, foodPrice, foodImage, foodType FROM food";
+            String sql = "SELECT idfood,foodName, foodPrice, foodImage, foodType FROM food";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -71,7 +75,7 @@ public class DrinksPage implements Initializable{
                     ImageView display = new ImageView();
                     display.setImage(newImage);
                     //this gets the data
-                    data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
+                    data.add(new food(rs.getInt("idfood"),rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
                     image.setCellValueFactory(new PropertyValueFactory<food,Blob>("image"));
                     name.setCellValueFactory(new PropertyValueFactory<food,String>("name"));
                     price.setCellValueFactory(new PropertyValueFactory<food,Float>("price"));
@@ -112,7 +116,7 @@ public class DrinksPage implements Initializable{
         try{
             //foodTable = new TableView<>();
 
-            String sql = "SELECT foodName, foodPrice, foodImage, foodType FROM food";
+            String sql = "SELECT idfood, foodName, foodPrice, foodImage, foodType FROM food";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -127,7 +131,7 @@ public class DrinksPage implements Initializable{
                         ImageView display = new ImageView();
                         display.setImage(newImage);
                         //this gets the data
-                        data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
+                        data.add(new food(rs.getInt("idfood"),rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
                         //the image is unique
                         System.out.println(rs.getString("foodName"));
                     }
@@ -146,5 +150,53 @@ public class DrinksPage implements Initializable{
            System.out.println("FAILURE!");
         }
 
+    }
+    @FXML
+    void addItemsToCart(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void itemSelect(MouseEvent event) {
+        food temp = (food)drinkTable.getSelectionModel().selectedItemProperty().get();
+        System.out.println("ITEM SELECTED!");
+        drinkTable.getSelectionModel().selectedItemProperty().get();
+        System.out.println(temp.getId());
+        System.out.println(drinkTable.getSelectionModel().getSelectedIndex());
+        if (App.loggedIn > 0 ) {
+
+            try {
+
+                //this adds to the quantity
+                    String sql = "SELECT quantity FROM shoppingCart WHERE custID = " + App.loggedIn + " AND  idfood = " + temp.getId();
+                    Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(sql);
+                    rs.next();
+                    int amount = rs.getInt(1) + 1;
+
+                    System.out.println(amount);
+                    sql = "UPDATE shoppingCart SET quantity = " + amount + " WHERE custID = "+ App.loggedIn + " AND  idfood = " + temp.getId();
+                    stmt.executeUpdate(sql);
+                    
+                    System.out.println(amount);
+                    conn.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+                try {
+                    //THIS MAKES A NEW ITEM IN THE SHOPPING CART
+                    String sql = "INSERT INTO shoppingCart (custID, idfood, quantity)"
+                    + "VALUES (" + App.loggedIn + "," + temp.getId() + "," + 1 + ")";
+                    Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
+                    Statement stmt = conn.createStatement();
+                    int newID = stmt.executeUpdate(sql);
+                    conn.close();
+                } catch (SQLException e){
+                    System.out.println(e.getMessage());
+                 }
+            }
+        }else{
+            System.out.println("User not logged in.");
+        }
     }
 }

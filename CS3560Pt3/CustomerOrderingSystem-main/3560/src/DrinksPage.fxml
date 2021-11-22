@@ -17,7 +17,7 @@
       </Label>
       <ScrollPane layoutX="14.0" layoutY="111.0" prefHeight="434.0" prefWidth="830.0">
          <content>
-            <TableView fx:id="drinkTable" prefHeight="461.0" prefWidth="801.0">
+            <TableView fx:id="drinkTable" onMouseClicked="#itemSelect" prefHeight="432.0" prefWidth="826.0">
               <columns>
                 <!-- <TableColumn fx:id="col_foodName" prefWidth="237.0" text="foodName" />
                 <TableColumn fx:id="col_foodPrice" prefWidth="106.0" text="foodPrice" />
@@ -30,5 +30,6 @@
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backToMenu" text="Back" />
       <TextField fx:id="searchBar" layoutX="175.0" layoutY="71.0" prefHeight="26.0" prefWidth="394.0" />
       <Button layoutX="605.0" layoutY="72.0" mnemonicParsing="false" onAction="#searchThrough" text="Search" />
+      <Button layoutX="691.0" layoutY="71.0" mnemonicParsing="false" onAction="#addItemsToCart" text="Add to Cart" />
    </children>
 </AnchorPane>

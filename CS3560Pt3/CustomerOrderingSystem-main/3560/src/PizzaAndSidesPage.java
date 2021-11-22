@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 public class PizzaAndSidesPage implements Initializable{
     private Scene scene;
     private Stage stage;
+    private int itemAmount;
     String test;
 
     @FXML
@@ -48,17 +49,16 @@ public class PizzaAndSidesPage implements Initializable{
         TableColumn name = new TableColumn("Food Name");
         TableColumn price = new TableColumn("Food Price");
         TableColumn image = new TableColumn("Food Image");
-        //TableColumn type = new TableColumn("Food Type");
+        TableColumn amount = new TableColumn("Amount");
 
-        foodTable.getColumns().addAll(name,price,image);
+        foodTable.getColumns().addAll(name,price,image,amount);
 
 
         final ObservableList<food> data = FXCollections.observableArrayList();
     
         try{
-            //foodTable = new TableView<>();
 
-            String sql = "SELECT foodName, foodPrice, foodImage, foodType FROM food";
+            String sql = "SELECT idfood, foodName, foodPrice, foodImage, foodType FROM food";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -73,18 +73,16 @@ public class PizzaAndSidesPage implements Initializable{
                     ImageView display = new ImageView();
                     display.setImage(newImage);
                     //this gets the data
-                    data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
+                    data.add(new food(rs.getInt("idfood"),rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
                     //the image is unique
-                    //debug stuff
-                    //System.out.println(newImage); 
 
                     image.setCellValueFactory(new PropertyValueFactory<food,Blob>("image"));
                     name.setCellValueFactory(new PropertyValueFactory<food,String>("name"));
                     price.setCellValueFactory(new PropertyValueFactory<food,Float>("price"));
-                    //type.setCellValueFactory(new PropertyValueFactory<food, String>("type"));
+                    itemAmount++;
                 }
                 //this was a debugging bit of code that shall be left in case it is needed
-                System.out.println(rs.getString("foodName"));
+                //System.out.println(rs.getString("foodName"));
                 
             }
 
@@ -122,7 +120,7 @@ public class PizzaAndSidesPage implements Initializable{
         try{
             //foodTable = new TableView<>();
 
-            String sql = "SELECT foodName, foodPrice, foodImage, foodType FROM food";
+            String sql = "SELECT idfood, foodName, foodPrice, foodImage, foodType FROM food";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -137,7 +135,7 @@ public class PizzaAndSidesPage implements Initializable{
                         ImageView display = new ImageView();
                         display.setImage(newImage);
                         //this gets the data
-                        data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
+                        data.add(new food(rs.getInt("idfood"),rs.getString("foodName"),rs.getFloat("foodPrice"),display,rs.getString("foodType")));
                         //the image is unique
                         System.out.println(rs.getString("foodName"));
                     }
@@ -156,6 +154,16 @@ public class PizzaAndSidesPage implements Initializable{
            System.out.println(ex.getMessage());
            System.out.println("FAILURE!");
         }
+    }
+    @FXML
+    void addItemsToCart(ActionEvent event) {
+        //this will add the items to the cart
+        // while(itemAmount != 0){
+        //     while(){
+
+        //     }
+        //     itemAmount--;
+        // }
     }
 
 }

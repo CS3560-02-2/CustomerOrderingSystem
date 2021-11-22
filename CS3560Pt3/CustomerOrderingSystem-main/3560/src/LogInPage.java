@@ -69,13 +69,13 @@ public class LogInPage {
                     System.out.println("CORRECT");
                     App.loggedIn = rs.getInt("custID");
                     App.loggedInName = rs.getString("firstName");
-                    System.out.println(App.loggedInName);  
-                    //MainPage.nameDisplay.setText(App.loggedInName);                            
+                    System.out.println(App.loggedInName);                              
                     break;
                 }else{
                     System.out.println("INCORRECT");
                 }
             }
+            conn.close();
             
         } catch (SQLException ex){
             System.out.println(ex.getMessage());

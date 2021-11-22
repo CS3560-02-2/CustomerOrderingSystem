@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 
 import javafx.collections.FXCollections;
@@ -38,50 +39,51 @@ public class CustomerPage implements Initializable{
     public void initialize(URL location, ResourceBundle resources){
         
 
-        // TableColumn name = new TableColumn("Name");
-        // TableColumn price = new TableColumn("Address");
-        // TableColumn image = new TableColumn("Phone Number");
-        // TableColumn type = new TableColumn("Credit Card");
+        TableColumn name = new TableColumn("Name");
+        TableColumn address = new TableColumn("Address");
+        TableColumn phoneNumber = new TableColumn("Phone Number");
+        TableColumn creditCard = new TableColumn("Credit Card");
 
-        // custTable.getColumns().addAll(name,price,image,type);
+        custTable.getColumns().addAll(name,address,phoneNumber,creditCard);
 
 
-        // final ObservableList<food> data = FXCollections.observableArrayList();
+        final ObservableList<customer> data = FXCollections.observableArrayList();
     
-        // try{
-        //     //foodTable = new TableView<>();
-
-        //     String sql = "SELECT foodName, foodPrice, foodImage, foodType FROM food";
-        //     Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
-        //     Statement stmt = conn.createStatement();
-        //     ResultSet rs = stmt.executeQuery(sql);
-
-
-          
+        try{
+            String sql = "SELECT custID, firstName, address, phoneNumber, creditCardNumber FROM customer";
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             
-        //     while(rs.next()){
-        //         //this if statement ensures only drinks are displayed
-        //         if(rs.getString("foodType").equalsIgnoreCase("drink")){
-        //             data.add(new food(rs.getString("foodName"),rs.getFloat("foodPrice"),rs.getBlob("foodImage"),rs.getString("foodType")));
-        //             image.setCellValueFactory(new PropertyValueFactory<food,Blob>("image"));
-        //             name.setCellValueFactory(new PropertyValueFactory<food,String>("name"));
-        //             price.setCellValueFactory(new PropertyValueFactory<food,Float>("price"));
-        //             type.setCellValueFactory(new PropertyValueFactory<food, String>("type"));
-        //         }
-                
-        //     }
+            
+                int i = 0;
+                while(rs.next()){
+                    if (App.loggedIn == rs.getInt("custID")) {
+                    data.add(new customer(rs.getString("firstName"),rs.getString("address"),rs.getString("phoneNumber"),rs.getString("creditCardNumber")));
+                    name.setCellValueFactory(new PropertyValueFactory<customer,String>("name"));
+                    address.setCellValueFactory(new PropertyValueFactory<customer,String>("address"));
+                    phoneNumber.setCellValueFactory(new PropertyValueFactory<customer,String>("phoneNumber"));
+                    creditCard.setCellValueFactory(new PropertyValueFactory<customer, String>("creditCardNumber"));  
+                    // System.out.println(data.get(i).getName()); 
+                    // i++;
+                    }
 
-        //     //this puts the table fully together
-        //     custTable.setItems(data);
+                }
 
-        //     //this closes the connection to the server
-        //     conn.close();
+            //this puts the table fully together
+            custTable.setItems(data);
 
-        //     //this will catch if the SQL database is connected to
-        // }catch (SQLException ex){
-        //    System.out.println(ex.getMessage());
-        //    System.out.println("FAILURE!");
-        // }
+            System.out.println("SUCESS!");
+
+
+            //this closes the connection to the server
+            conn.close();
+
+            //this will catch if the SQL database is connected to
+        }catch (SQLException ex){
+           System.out.println(ex.getMessage());
+           System.out.println("FAILURE!");
+        }
     }
     
     @FXML

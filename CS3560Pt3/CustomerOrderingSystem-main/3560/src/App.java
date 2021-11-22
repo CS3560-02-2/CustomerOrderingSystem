@@ -15,7 +15,7 @@ public class App extends Application {
     //PizzaAndSidesPage foodPage;
     //DrinksPage drinkPage;
     
-    public static int loggedIn;
+    public static int loggedIn = -1;
     public static String loggedInName;
 
     public App(){

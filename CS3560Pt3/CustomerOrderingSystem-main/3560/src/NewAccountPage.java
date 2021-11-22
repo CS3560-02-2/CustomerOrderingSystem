@@ -86,30 +86,21 @@ public class NewAccountPage {
 
     @FXML
     void saveUserData(ActionEvent event) {
-        //debugging text input
-        System.out.println(enterFirstName.getText());
-        System.out.println(enterLastName.getText());
-        System.out.println(enterAddress.getText());
-        System.out.println(enterCity.getText());
-        System.out.println(enterZip.getText());
-        System.out.println(enterState.getText());
-        System.out.println(enterPhoneNumber.getText());
-        System.out.println(enterCreditCard.getText());
-        System.out.println(enterCVV.getText());
-        System.out.println(enterUserName.getText());
-        System.out.println(enterPass.getText());
 
         try {
             String sql = "INSERT INTO customer (firstName, lastName, address, city, zipcode, state, phoneNumber, "
             + "creditCardNumber, creditCardSec, username, pass) "
-            + "VALUES (" + enterFirstName.getText() + "," + enterLastName.getText() + "," + enterAddress.getText() + "," 
-            + enterCity.getText() + "," +  enterZip.getText() + "," + enterState.getText() + "," +  enterPhoneNumber.getText() + "," 
-            + enterCreditCard.getText() + "," +  enterCVV.getText() + "," +  enterUserName.getText() + "," +  enterPass.getText() + ")";
+            + "VALUES ('" + enterFirstName.getText() + "','" + enterLastName.getText() + "','" + enterAddress.getText() + "','" 
+            + enterCity.getText() + "','" +  enterZip.getText() + "','" + enterState.getText() + "','" +  enterPhoneNumber.getText() + "','" 
+            + enterCreditCard.getText() + "','" +  enterCVV.getText() + "','" +  enterUserName.getText() + "','" +  enterPass.getText() + "')";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mysqlcs3560", "sqluser", "password");
             Statement stmt = conn.createStatement();
             int newID = stmt.executeUpdate(sql);
             //rs.getString("firstName");
-
+            App.loggedIn = newID;
+            App.loggedInName = enterFirstName.getText();
+            
+            conn.close();
         } catch (SQLException ex){
             System.out.println(ex.getMessage());
          }
