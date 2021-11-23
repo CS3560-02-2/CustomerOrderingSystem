@@ -49,9 +49,9 @@ public class PizzaAndSidesPage implements Initializable{
         TableColumn name = new TableColumn("Food Name");
         TableColumn price = new TableColumn("Food Price");
         TableColumn image = new TableColumn("Food Image");
-        TableColumn amount = new TableColumn("Amount");
+        //TableColumn amount = new TableColumn("Amount");
 
-        foodTable.getColumns().addAll(name,price,image,amount);
+        foodTable.getColumns().addAll(name,price,image);
 
 
         final ObservableList<food> data = FXCollections.observableArrayList();
@@ -153,16 +153,7 @@ public class PizzaAndSidesPage implements Initializable{
            System.out.println("FAILURE!");
         }
     }
-    @FXML
-    void addItemsToCart(ActionEvent event) {
-        //this will add the items to the cart
-        // while(itemAmount != 0){
-        //     while(){
-
-        //     }
-        //     itemAmount--;
-        // }
-    }
+    
 
     @FXML
     void itemSelect(MouseEvent event) {

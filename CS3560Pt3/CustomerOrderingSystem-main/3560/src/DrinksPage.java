@@ -49,9 +49,9 @@ public class DrinksPage implements Initializable{
         TableColumn name = new TableColumn("Food Name");
         TableColumn price = new TableColumn("Food Price");
         TableColumn image = new TableColumn("Food Image");
-        TableColumn amount = new TableColumn("Amount");
+        //TableColumn amount = new TableColumn("Amount");
 
-        drinkTable.getColumns().addAll(name,price,image,amount);
+        drinkTable.getColumns().addAll(name,price,image);
 
 
         final ObservableList<food> data = FXCollections.observableArrayList();
@@ -151,10 +151,7 @@ public class DrinksPage implements Initializable{
         }
 
     }
-    @FXML
-    void addItemsToCart(ActionEvent event) {
-
-    }
+    
     
     @FXML
     void itemSelect(MouseEvent event) {

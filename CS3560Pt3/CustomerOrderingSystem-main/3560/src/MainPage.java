@@ -52,11 +52,16 @@ public class MainPage implements Initializable{
 
     @FXML
     void gotToAccountPage(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("CustomerPage.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        if (App.loggedIn > 0) {
+            Parent root = FXMLLoader.load(getClass().getResource("CustomerPage.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            String notice =  "You are not logged in";
+            message.setText(notice);            
+        }
     }
 
     @FXML
