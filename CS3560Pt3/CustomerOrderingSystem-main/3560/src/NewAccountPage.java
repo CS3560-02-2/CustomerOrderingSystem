@@ -97,7 +97,11 @@ public class NewAccountPage {
             Statement stmt = conn.createStatement();
             int newID = stmt.executeUpdate(sql);
             //rs.getString("firstName");
-            App.loggedIn = newID;
+            sql = "SELECT custID FROM customer WHERE username = '" + enterUserName.getText() + "' and pass = '" + enterPass.getText() + "'";
+            Statement finalCountdown = conn.createStatement();
+            ResultSet rsFind = finalCountdown.executeQuery(sql);
+            rsFind.next();
+            App.loggedIn = rsFind.getInt("custID");
             App.loggedInName = enterFirstName.getText();
             
             conn.close();

@@ -20,6 +20,10 @@ public class MainPage implements Initializable{
     @FXML
     private Text nameDisplay;
 
+    
+    @FXML
+    private Text message;
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         if(App.loggedInName != null){
@@ -62,6 +66,21 @@ public class MainPage implements Initializable{
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+    }
+    @FXML
+    void goToCart(ActionEvent event) throws IOException{
+        if(App.loggedIn > 0){
+            Parent root = FXMLLoader.load(getClass().getResource("checkOutPage.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        }else{
+            String notice =  "You are not logged in";
+            message.setText(notice);
+        }
 
     }
 

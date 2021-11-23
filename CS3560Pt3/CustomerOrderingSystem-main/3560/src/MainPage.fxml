@@ -38,5 +38,7 @@
             <Text fx:id="nameDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Human" GridPane.columnIndex="1" />
          </children>
       </GridPane>
+      <Button layoutX="416.0" layoutY="339.0" mnemonicParsing="false" onAction="#goToCart" text="Cart" />
+      <Text fx:id="message" layoutX="373.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " wrappingWidth="124.00003051757812" />
    </children>
 </AnchorPane>

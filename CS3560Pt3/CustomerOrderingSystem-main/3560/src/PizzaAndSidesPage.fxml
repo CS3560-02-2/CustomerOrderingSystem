@@ -17,7 +17,7 @@
       </Label>
       <ScrollPane layoutX="14.0" layoutY="113.0" prefHeight="434.0" prefWidth="830.0">
          <content>
-            <TableView fx:id="foodTable" prefHeight="560.0" prefWidth="860.0">
+            <TableView fx:id="foodTable" onMouseClicked="#itemSelect" prefHeight="432.0" prefWidth="827.0">
               <columns>
                 <!-- <TableColumn fx:id="col_foodName" prefWidth="237.0" text="foodName" />
                 <TableColumn fx:id="col_foodPrice" prefWidth="106.0" text="foodPrice" />
